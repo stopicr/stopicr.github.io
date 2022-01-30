@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Covid u RS 27.1.2022</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- Bootstrap -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	<!-- Icon font -->
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="assets/css/styles.css">
+
+	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
+
+	<link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+  
+<style>
+#map {
+    max-width: 600px;
+    height: 500px;
+	width: 100%;
+}
+
+.info {
+  padding: 6px 8px;
+  background: white;
+  background: rgba(255, 255, 255, 0.796);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+.info h6 {
+  margin: 0 0 5px;
+  color: rgb(173, 33, 33);
+}
+
+#map {
+    background: rgba(109, 107, 107, 0);
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+	<div id="head" class="parallax" parallax-speed="1">
+		<h1 id="logo" class="text-center">
+			<span class="title">Renato Stopic</span>
+			<span class="tagline">GIS & Geospatial<br>
+				<a href=""></a></span>
+		</h1>
+	</div>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			
+			<div class="navbar-header">
+				<!-- defective button on original template -->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+          		</button>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+				
+				<ul class="nav navbar-nav">
+					<li ><a href="index.html">Home</a></li>
+					<li ><a href="about.html">About</a></li>
+				</ul>
+			
+			</div><!--/.nav-collapse -->			
+		</div>	
+	</nav>
+</header>
+
+<main id="main">
+
+	<div class="container">
+
+		<div class="row topspace">
+			
+			<!-- Article main content -->
+			<article class="col-sm-8 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Covid-19 u RS 27.1.2022	</h1>
+				</header>
+
+				<div id="map"></div>
+
+				<p>Broj Covid-19 slucajeva po opstini u RS za 27.1.2022.</p>
+				<p>Number of Covid-19 cases in RS per municipality on 27.1.2022.</p>
+
+			</article>
+			<!-- /Article -->
+
+			<!-- Sidebar -->
+			<aside class="col-md-4 sidebar sidebar-left">
+
+				<div class="widget">
+					<h3>Tools used:</h3>
+					<ul>
+						<li>LeafletJS</li>
+						<li>QGIS</li>
+					</ul>
+				</div>
+				<div class="widget">
+					<h3>Sources:</h3>
+					<ul>
+						<li>GeoBoundaries</li>
+						<li><a href="https://www.phi.rs.ba/index.php?view=clanak&id=2230&lang=SR-CIR">JZU Institut za Javno Zdravstvo RS</a></li>
+					</ul>
+				</div>
+			</aside>			
+			<!-- /Sidebar -->
+			
+		</div>
+	</div>	<!-- /container -->
+	
+</main>
+<script src="rs_2.js"></script>
+<script>
+    var map = L.map('map',{
+    center: [43.9, 17.9],
+    zoom: 7
+    });
+
+    L.tileLayer('',
+	{attribution: 
+	'<a href="www.geoboundaries.org">geoBoundaries</a>'}
+	).addTo(map);
+   
+    function getColor(d) {
+    return d > 100 ? '#800026' :
+           d > 50  ? '#BD0026' :
+           d > 25  ? '#E31A1C' :
+           d > 10  ? '#FC4E2A' :
+           d > 5   ? '#FD8D3C' :
+           d > 3   ? '#FEB24C' :
+           d > 0   ? '#FED976' :
+                      '#eeeeee';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.covid),
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+    info.update(layer.feature.properties);
+
+    layer.setStyle({
+        weight: 5,
+        color: '#969595',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update();
+
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+var info = L.control();
+
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); 
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    this._div.innerHTML = '<h6><b>Opština</b></h6>' +  (props ?
+        '<b>' + props.shapeName + '</b><br />' + props.covid + ' Covid slučaja '
+        : '');
+};
+
+info.addTo(map);
+
+geojson = L.geoJson(rs, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+</script>
+
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Copyright &copy; 2022, Renato Stopic<br> 
+						Design: <a href="http://www.gettemplate.com" rel="designer">Initio by GetTemplate</a> </p>
+				</div>
+			</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+
+
+<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="assets/js/template.js"></script>
+</body>
+</html>
