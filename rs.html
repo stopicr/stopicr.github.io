@@ -150,6 +150,22 @@
 	'<a href="www.geoboundaries.org">geoBoundaries</a>'}
 	).addTo(map);
    
+	var info = L.control();
+
+	info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); 
+    this.update();
+    return this._div;
+	};
+
+	info.update = function (props) {
+    this._div.innerHTML = '<h6><b>Opština</b></h6>' +  (props ?
+        '<b>' + props.shapeName + '</b><br />' + props.covid + ' Covid slučaja '
+        : '');
+	};
+
+	info.addTo(map);
+
     function getColor(d) {
     return d > 100 ? '#800026' :
            d > 50  ? '#BD0026' :
@@ -210,22 +226,6 @@ function onEachFeature(feature, layer) {
     });
 }
 
-var info = L.control();
-
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); 
-    this.update();
-    return this._div;
-};
-
-info.update = function (props) {
-    this._div.innerHTML = '<h6><b>Opština</b></h6>' +  (props ?
-        '<b>' + props.shapeName + '</b><br />' + props.covid + ' Covid slučaja '
-        : '');
-};
-
-info.addTo(map);
 
 geojson = L.geoJson(rs, {
     style: style,
