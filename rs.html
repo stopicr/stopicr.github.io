@@ -174,7 +174,6 @@ function style(feature) {
 
 function highlightFeature(e) {
     var layer = e.target;
-    info.update(layer.feature.properties);
 
     layer.setStyle({
         weight: 5,
@@ -186,6 +185,9 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
+	
+	info.update(layer.feature.properties);
+
 }
 
 function resetHighlight(e) {
