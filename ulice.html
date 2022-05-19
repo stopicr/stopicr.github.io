@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Po kome su nazvane banjalučke ulice</title>
+
+	<link rel="shortcut icon" href="assets/images/gt_favicon.png">
+	
+	<!-- Bootstrap -->
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+	<!-- Icon font -->
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<!-- Fonts -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alice|Open+Sans:400,300,700">
+	<!-- Custom styles -->
+	<link rel="stylesheet" href="assets/css/styles.css">
+
+	<!--[if lt IE 9]> <script src="assets/js/html5shiv.js"></script> <![endif]-->
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  
+<style>
+#map {
+    max-width: 600px;
+    height: 500px;
+	width: 95%;
+}
+
+.info {
+  padding: 6px 8px;
+  background: white;
+  background: rgba(255, 255, 255, 0.796);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+.info h6 {
+  margin: 0 0 5px;
+  color: rgb(173, 33, 33);
+}
+
+#map {
+    background: rgba(109, 107, 107, 0);
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+	<div id="head" class="parallax" parallax-speed="1">
+		<h1 id="logo" class="text-center">
+			<span class="title">Renato Stopic</span>
+			<span class="tagline">GIS & Geospatial<br>
+				<a href=""></a></span>
+		</h1>
+	</div>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			
+			<div class="navbar-header">
+				<!-- defective button on original template -->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+          		</button>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+				
+				<ul class="nav navbar-nav">
+					<li ><a href="index.html">Home</a></li>
+					<li ><a href="about.html">About</a></li>
+				</ul>
+			
+			</div><!--/.nav-collapse -->			
+		</div>	
+	</nav>
+</header>
+
+<main id="main">
+
+	<div class="container">
+
+		<div class="row topspace">
+			
+			<!-- Article main content -->
+			<article class="col-sm-8 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Po kome su nazvane banjalučke ulice?</h1>
+				</header>
+
+				<div id="map"></div>
+				<p></p>
+				<p>Ovaj projekat je napravljen pomoću podatka sa OpenStreetMap. Sve ulice u gradu koje imaju ime su podjeljene u tri kategorije u zavisnosti od toga po kome ili čemu su nazvane. Ulice koje su nazvane po jednom ili više muškaraca poput "Ulica Čarli Čaplina" ili "Ulica Braće Miletića" su jedna kategorija i one su predstavljene narandžastom bojom na karti. Ulice koje su dobile naziv po nekoj ženi ili grupi žena poput "Ulica Marije Kiri" ili "Ulica sestara Levi" i one su predstavljene svijetloplavom bojom na karti. U treću kategoriju spadaju sve ostale ulice, kao one što su nazvane po mjestima kao npr. "Grčka ulica", ili ulice koje su nazvane po grupi ljudi kao "Ulica braće i sestara Kapor" i one su predstavljene zelenom bojom na karti.</p>
+				<p></p>
+				<p>Od ukupno 530 ulica, samo 37 nosi ime po ženama, dok 308 ulica je nazvano po muškarcima. Što se tiče ostalih ulica, one su većinom nazvane po drugim mjestima, grupama ljudi ili datumima i ukupno ima 185 takvih ulica. </p>
+				<p></p>
+				<p>Pošto su ovo podaci koje su volonteri skupili a ne zvanični podaci, moguće je da su podaci neputpuni i da postoje ulice u gradu koje nisu obilježene ovdje. Ako ste niašli na neku grešku slobodno je možete meni javiti ili možete sami dopuniti na <a href = https://wiki.openstreetmap.org/wiki/Sr:Beginners%27_guide> OpenStreetMap pomoću ovog tutorijala </a> </p>
+			</article>
+				<!-- /Article -->
+
+			<!-- Sidebar -->
+			<aside class="col-md-4 sidebar sidebar-left">
+
+				<div class="widget">
+					<h3>Tools used:</h3>
+					<ul>
+						<li>LeafletJS</li>
+						<li>QGIS</li>
+					</ul>
+				</div>
+				<div class="widget">
+					<h3>Izvori:</h3>
+					<ul>
+						<li>OpenStreetMaps</li>
+					</ul>
+				</div>
+			</aside>			
+			<!-- /Sidebar -->
+			
+		</div>
+	</div>	<!-- /container -->
+	
+</main>
+<script src="ulice.js"></script>
+<script>
+    var map = L.map('map',{
+    center: [44.78, 17.2],
+    zoom: 13
+    });
+
+
+
+	
+
+	function getColor(d) {
+		return d == 3 ? '#66f5ff' :
+		       d == 2 ? '#e8bb33' :
+			   d == 1 ? '#2c7824' :
+			   '#FFEDA0' ;
+	}
+
+	function style(feature){
+		return {
+			color: getColor(feature.properties.category),
+			weight: 3
+		};
+	}
+
+	function onEachFeature(feature, layer) {
+		var popupContent = feature.properties.name;
+		layer.bindPopup(popupContent);
+	}
+
+
+ulice = L.geoJson(ulice,{
+	style: style,
+	onEachFeature: onEachFeature}).addTo(map);
+</script>
+
+
+<footer id="underfooter">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					
+				</div>
+			</div>
+
+			<div class="col-md-6 widget">
+				<div class="widget-body">
+					<p class="text-right">
+						Copyright &copy; 2022, Renato Stopic<br> 
+						Design: <a href="http://www.gettemplate.com" rel="designer">Initio by GetTemplate</a> </p>
+				</div>
+			</div>
+
+		</div> <!-- /row of widgets -->
+	</div>
+</footer>
+
+
+
+<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="assets/js/template.js"></script>
+</body>
+</html>
